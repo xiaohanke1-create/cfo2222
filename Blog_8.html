@@ -444,4 +444,37 @@ function gtag(){dataLayer.push(arguments);}
  mo.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['href'] });
  }
 })();
+</script><script>
+(function () {
+  var REWRITES = {
+    "./": "./index.html.html",
+    "./fp-a2": "./fp-a.html",
+    "./about-us": "./About_us.html",
+    "./contact-us": "./Contact_us.html",
+    "./privacy-policy": "./privacy-policy.html",
+    "./ad-disclosure": "./Ad_Disclosure.html"
+  };
+
+  function splitHref(href) {
+    var hash = "";
+    var query = "";
+    var base = href;
+    var hashIdx = base.indexOf("#");
+    if (hashIdx >= 0) { hash = base.slice(hashIdx); base = base.slice(0, hashIdx); }
+    var qIdx = base.indexOf("?");
+    if (qIdx >= 0) { query = base.slice(qIdx); base = base.slice(0, qIdx); }
+    return { base: base, query: query, hash: hash };
+  }
+
+  var links = document.querySelectorAll("a[href]");
+  for (var i = 0; i < links.length; i++) {
+    var a = links[i];
+    var href = a.getAttribute("href");
+    if (!href) continue;
+    var parts = splitHref(href);
+    var mapped = REWRITES[parts.base];
+    if (!mapped) continue;
+    a.setAttribute("href", mapped + parts.query + parts.hash);
+  }
+})();
 </script></body></html>
